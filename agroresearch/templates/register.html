@@ -1,0 +1,210 @@
+{% extends 'base.html' %}
+
+{% block title %}Jisajili - Mfumo wa Kuripoti Hitilafu ya Nyaya za Fiber{% endblock %}
+
+{% block content %}
+<style>
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(to right, #e3f2fd, #fce4ec);
+        margin: 0;
+        padding: 0;
+    }
+
+    .form-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 60px 20px;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        background-color: #ffffff;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+
+    h2 {
+        margin-bottom: 30px;
+        font-size: 26px;
+        font-weight: 600;
+        color: #191970;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+        position: relative;
+    }
+
+    label {
+        font-weight: 600;
+        margin-bottom: 6px;
+        display: block;
+        color: #555;
+        font-size: 15px;
+    }
+
+    input {
+        width: 100%;
+        padding: 12px 40px 12px 38px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 14px;
+        transition: border 0.3s, box-shadow 0.3s;
+    }
+
+    input:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.2);
+        outline: none;
+    }
+
+    .form-group i {
+        position: absolute;
+        left: 10px;
+        top: 39px;
+        color: #999;
+    }
+
+    .password-group {
+        display: flex;
+        gap: 10px;
+    }
+
+    .password-group .password {
+        flex: 1;
+        position: relative;
+    }
+
+    button {
+        width: 100%;
+        padding: 14px;
+        background-color: darkgreen;
+        border: none;
+        color: #fff;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 8px;
+        cursor: pointer;
+        margin-top: 25px;
+        transition: background-color 0.1s;
+    }
+
+    button:hover {
+        background-color: darkgreen;
+    }
+
+    .errorlist {
+        color: #d32f2f;
+        font-size: 13px;
+        list-style-type: none;
+        padding-left: 0;
+        margin-top: 5px;
+    }
+
+    .errorlist li {
+        margin-bottom: 4px;
+    }
+</style>
+
+<div class="form-wrapper">
+    <div class="form-container">
+        <h2>Create your account</h2>
+        <form method="post">
+            {% csrf_token %}
+
+            <!-- Full Name -->
+            <div class="form-group">
+                <label for="id_full_name">Full name</label>
+                <i class="fa fa-user"></i>
+                {{ form.full_name }}
+                {% if form.full_name.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.full_name.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Username -->
+            <div class="form-group">
+                <label for="id_username">Username</label>
+                <i class="fa fa-user-circle"></i>
+                {{ form.username }}
+                {% if form.username.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.username.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Email -->
+            <div class="form-group">
+                <label for="id_email">Email</label>
+                <i class="fa fa-envelope"></i>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.email.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Phone Number -->
+            <div class="form-group">
+                <label for="id_phone_number">Phone number</label>
+                <i class="fa fa-phone"></i>
+                {{ form.phone_number }}
+                {% if form.phone_number.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.phone_number.errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <!-- Password Fields -->
+            <div class="password-group">
+                <div class="password">
+                    <label for="id_password1">Password</label>
+                    <i class="fa fa-lock"></i>
+                    {{ form.password1 }}
+                    {% if form.password1.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password1.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+
+                <div class="password">
+                    <label for="id_password2">Confirm password</label>
+                    <i class="fa fa-lock"></i>
+                    {{ form.password2 }}
+                    {% if form.password2.errors %}
+                        <ul class="errorlist">
+                            {% for error in form.password2.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <button type="submit">Click here to register</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

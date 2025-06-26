@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="leak-reports-container">
+    <h2>Ripoti za mivujo</h2>
+
+    {% if leak_reports %}
+      <table class="leak-reports-table">
+        <thead>
+          <tr>
+            <th>Aina ya Hitilafu</th>
+            <th>Maelezo ya Hitilafu</th>
+            <th>Tarehe ya Ripoti</th>
+            <th>Eneo (Latitude, Longitude)</th>
+            <th>Mteja</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for leak in leak_reports %}
+            <tr>
+              <td>{{ leak.get_leak_type_display }}</td>  <!-- Display choice for leak type -->
+              <td>{{ leak.description }}</td>
+              <td>{{ leak.reported_at }}</td>
+              <td>Latitude: {{ leak.latitude }}, Longitude: {{ leak.longitude }}</td>
+              <td>{{ leak.customer.full_name }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No leak reports found.</p>
+    {% endif %}
+  </div>
+
+  <style>
+    .leak-reports-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #333;
+    }
+
+    .leak-reports-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .leak-reports-table th,
+    .leak-reports-table td {
+      padding: 12px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    .leak-reports-table th {
+      background-color: #f1f1f1;
+      font-weight: bold;
+    }
+
+    .leak-reports-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+  </style>
+{% endblock %}

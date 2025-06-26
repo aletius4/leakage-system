@@ -1,0 +1,115 @@
+{% load static %}
+{% block content %}
+<h2 class="text-xl font-bold mb-4">Leak Locations Map</h2>
+
+<div id="map" style="height: 600px; width: 100%;"></div>
+
+<!-- Leaflet CSS -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-measure/dist/leaflet-measure.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.css" />
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.fullscreen@1.6.0/Control.FullScreen.js"></script>
+<script src="https://unpkg.com/leaflet-measure/dist/leaflet-measure.js"></script>
+<script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine/dist/leaflet-routing-machine.min.js"></script>
+
+<script>
+  const map = L.map('map', { fullscreenControl: true }).setView([-1.33167, 31.81222], 13);
+
+  // Base layers
+  const osm = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+  
+  const googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+    subdomains: ['mt0','mt1','mt2','mt3']
+  });
+
+  const googleHybrid = L.tileLayer('http://{s}.google.com/vt/lyrs=y&x={x}&y={y}&z={z}', {
+    subdomains: ['mt0','mt1','mt2','mt3']
+  });
+
+  const topo = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png');
+
+  L.control.layers({
+    "OpenStreetMap": osm,
+    "Google Satellite": googleSat,
+    "Google Hybrid": googleHybrid,
+    "Topo Map": topo
+  }).addTo(map);
+
+  L.control.scale().addTo(map);
+  L.control.measure().addTo(map);
+  L.Control.geocoder().addTo(map);
+
+  // BUWASA Office marker
+  const buwasaCoords = [-1.32375, 31.81207];
+  const office = L.marker(buwasaCoords, {
+    icon: L.icon({
+      iconUrl: 'https://maps.google.com/mapfiles/ms/icons/blue-dot.png',
+      iconSize: [32, 32],
+      iconAnchor: [16, 32]
+    })
+  }).addTo(map).bindPopup("BUWASA Office");
+
+  let routeControl = null;
+
+  // Leakage markers from Django context
+  const leakage = {{ leakage_json|safe }};
+  leakage.forEach(item => {
+    const marker = L.marker([item.latitude, item.longitude], {
+      icon: L.icon({
+        iconUrl: 'https://maps.google.com/mapfiles/ms/icons/red-dot.png',
+        iconSize: [32, 32]
+      })
+    }).addTo(map);
+    marker.bindPopup(`
+      <b>Leak:</b> ${item.description}<br>
+      <button onclick="showRoute(${item.latitude}, ${item.longitude})">Show Route</button>
+    `);
+  });
+
+  function showRoute(lat, lng) {
+    if (routeControl) map.removeControl(routeControl);
+    routeControl = L.Routing.control({
+      waypoints: [L.latLng(buwasaCoords), L.latLng(lat, lng)],
+      routeWhileDragging: false,
+      showAlternatives: false,
+      createMarker: () => null
+    }).addTo(map);
+  }
+
+  // Load and display GeoJSON layers
+  const geojsonFiles = [
+    {
+      path: "{% static 'geojson/pipes_network.geojson' %}",
+      color: "blue", label: "Pipes"
+    },
+    {
+      path: "{% static 'geojson/points_network.geojson' %}",
+      color: "red", label: "Points"
+    },
+    {
+      path: "{% static 'geojson/valves_network.geojson' %}",
+      color: "#008000", label: "Valves"
+    }
+  ];
+
+  geojsonFiles.forEach(file => {
+    fetch(file.path)
+      .then(response => response.json())
+      .then(data => {
+        const layer = L.geoJSON(data, {
+          style: { color: file.color }
+        }).addTo(map);
+        layer.bindPopup(file.label);
+      })
+      .catch(err => console.error(`Failed to load ${file.label}:`, err));
+  });
+</script>
+{% endblock %}

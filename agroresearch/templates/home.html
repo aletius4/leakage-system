@@ -1,0 +1,194 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="content-layout">
+    <!-- Left: Carousel with images -->
+    <div class="left-section">
+        <div id="carouselExample" class="carousel slide h-100" data-bs-ride="carousel">
+            <div class="carousel-inner h-100">
+                <div class="carousel-item active h-100">
+                    <img src="{% static 'image/B1.png' %}" class="d-block w-100 h-100" alt="Image 1" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B2.png' %}" class="d-block w-100 h-100" alt="Image 2" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B3.png' %}" class="d-block w-100 h-100" alt="Image 3" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B4.png' %}" class="d-block w-100 h-100" alt="Image 4" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B5.png' %}" class="d-block w-100 h-100" alt="Image 5" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B6.png' %}" class="d-block w-100 h-100" alt="Image 6" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B7.png' %}" class="d-block w-100 h-100" alt="Image 7" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B8.png' %}" class="d-block w-100 h-100" alt="Image 8" style="object-fit: cover;">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="{% static 'image/B9.png' %}" class="d-block w-100 h-100" alt="Image 9" style="object-fit: cover;">
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Right: Welcome message -->
+    <div class="right-section">
+        <h1>Karibu kwenye Mfumo wa Kuripoti matukio ya uvujaji wa maji </h1>
+        <p>Mfumo huu unakuwezesha kuripoti kwa urahisi matatizo ya upotevu wa maji.
+           Tunakushughulikia kwa wakati kupitia taarifa unazotoa.
+           Jisajili au ingia ili kuripoti matukio ya uvujaji wa maji
+        </p>
+
+        {% if account_form %}
+        <form method="post" class="account-form">
+            {% csrf_token %}
+            {% for field in account_form %}
+            <div class="mb-3">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.help_text %}
+                    <small class="form-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% for error in field.errors %}
+                    <div class="error">{{ error }}</div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+            {% if account_form.non_field_errors %}
+                <div class="error non-field-error">
+                    {{ account_form.non_field_errors }}
+                </div>
+            {% endif %}
+            <button type="submit" class="submit-btn">
+                Ingia
+            </button>
+        </form>
+        {% endif %}
+    </div>
+</div>
+
+<!-- Inline Styles za kuboresha mwonekano bila kuathiri muundo -->
+<style>
+  .content-layout {
+      display: flex;
+      min-height: 80vh;
+      gap: 20px;
+      margin: 20px auto;
+      max-width: 1200px;
+  }
+  
+  .left-section, .right-section {
+      flex: 1;
+      border-radius: 12px;
+      overflow: hidden;
+  }
+  
+  .left-section {
+      position: relative;
+  }
+  
+  .right-section {
+      background-color: whitesmoke;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+  }
+  
+  .right-section h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: #2c3e50;
+  }
+  
+  .right-section p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      color: #555;
+  }
+  
+  .account-form .mb-3 {
+      margin-bottom: 15px;
+  }
+  
+  .account-form label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      color: #34495e;
+  }
+  
+  .account-form input,
+  .account-form textarea,
+  .account-form select {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      transition: border-color 0.3s;
+  }
+  
+  .account-form input:focus,
+  .account-form textarea:focus,
+  .account-form select:focus {
+      border-color: #007bff;
+      outline: none;
+  }
+  
+  .form-text {
+      font-size: 0.9rem;
+      color: #666;
+  }
+  
+  .error {
+      color: #dc3545;
+      margin-top: 5px;
+  }
+  
+  .non-field-error {
+      margin-bottom: 15px;
+  }
+  
+  .submit-btn {
+      background-color: #007bff;
+      color: #fff;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn:hover {
+      background-color: #0056b3;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+      .content-layout {
+          flex-direction: column;
+      }
+      .left-section,
+      .right-section {
+          height: auto;
+      }
+  }
+</style>
+{% endblock content %}

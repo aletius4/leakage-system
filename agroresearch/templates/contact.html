@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container" style="width: 60%; margin: 50px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); font-family: 'Times New Roman', sans-serif;">
+    <h2 style="color: #191970; text-align: center;">Contact BUWASA Water Leakage Reporting</h2>
+    
+    <div class="contact-info" style="text-align: left; margin-bottom: 20px;">
+        <p><strong>Address:</strong> Kitekere street, Bukoba Kagera, Tanzania</p>
+        <p><strong>Email:</strong> <a href="mailto:info@buwasa.co.tz"> info@buwasa.co.tz</a></p>
+        <p><strong>Phone:</strong> +255 282 220 300</p>
+        <p><strong>Phone:</strong> +255 282 221 588</p>
+    </div>
+    <h3>Send us a Message</h3>
+    <form>
+        <label for="name">Your Name</label>
+        <input type="text" id="name" name="name" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+
+        <label for="email">Your Email</label>
+        <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;">
+
+        <label for="message">Your Message</label>
+        <textarea id="message" name="message" rows="4" required style="width: 100%; padding: 10px; margin-top: 5px; border-radius: 5px; border: 1px solid #ccc;"></textarea>
+
+        <button type="submit" style="background-color: darkgreen; color: white; border: none; font-size: 16px; cursor: pointer; padding: 10px; width: 100%; margin-top: 10px;">Send Message</button>
+    </form>
+</div>
+{% endblock content %}

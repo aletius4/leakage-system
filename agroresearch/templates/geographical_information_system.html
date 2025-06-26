@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}GIS - BUWASA Leakage System{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h2 class="mb-4" style="color : #00008B;">Geographical Information System (GIS) for Leakage Mapping</h2>
+    <p>
+        The GIS component of the system allows administrators and technical staff to visualize reported water leakage on a digital map.
+        Each report includes geolocation data submitted by the customer or captured via device, making it easier to identify trends and critical zones.
+    </p>
+    <p>
+        With GIS, leakage resolution becomes more strategic, helping BUWASA improve efficiency and reduce service downtime.
+    </p>
+
+    <div id="map" style="height: 500px;" class="mt-4 rounded shadow"></div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Create the map centered at Bukoba Kagera
+    var map = L.map('map').setView([-1.33167, 31.81222], 10);  // Centered at Bukoba
+    
+    // Add OpenStreetMap tiles as the base layer
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Example of Leak Marker Distribution
+    // You can replace these with dynamic leak locations from your database
+    var leakLocations = [
+    ];
+
+    // Add markers to the map for each leak location
+    leakLocations.forEach(function(leak) {
+        L.marker([leak.lat, leak.lng])
+            .addTo(map)
+            .bindPopup('<b>Leak Description:</b> ' + leak.description)
+            .openPopup();
+    });
+</script>
+{% endblock %}
+
+{% endblock %}

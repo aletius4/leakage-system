@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="report-form-container">
+    <h2>Report your Leak</h2>
+    <form method="post" class="leak-report-form" onsubmit="return validateLocation();">
+      {% csrf_token %}
+
+      <label for="{{ form.leak_type.id_for_label }}">Category of Leak</label>
+      {{ form.leak_type }}
+
+      <label for="{{ form.description.id_for_label }}">Description of Leakage</label>
+      {{ form.description }}
+
+      <!-- Hidden fields kwa Latitude na Longitude -->
+      <input type="hidden" id="latitude" name="latitude">
+      <input type="hidden" id="longitude" name="longitude">
+
+      <button type="submit" class="submit-btn">Report</button>
+    </form>
+  </div>
+  <script>
+     function validateLocation() {
+       const lat = document.getElementById('latitude').value;
+       const lon = document.getElementById('longitude').value;
+
+     if (!lat || !lon) {
+       alert("Subiri eneo lako lipatikane kabla ya kutuma ripoti.");
+       return false;
+      }
+      return true;
+    }
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(function(position) {
+         document.getElementById('latitude').value = position.coords.latitude;
+         document.getElementById('longitude').value = position.coords.longitude;
+      }, function(error) {
+        alert("Imeshindikana kupata location. Tafadhali ruhusu kivinjari.");
+      });
+    }
+  </script>
+
+  <style>
+    .report-form-container {
+      width: 100%;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1.8em;
+      color: #333;
+    }
+
+    .leak-report-form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .leak-report-form label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: #444;
+    }
+
+    .leak-report-form select,
+    .leak-report-form textarea,
+    .leak-report-form input,
+    .leak-report-form button {
+      padding: 12px;
+      font-size: 1em;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .leak-report-form textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      background-color: darkgreen;
+      color: white;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .submit-btn:hover {
+      background-color: darkgreen;
+    }
+  </style>
+{% endblock %}

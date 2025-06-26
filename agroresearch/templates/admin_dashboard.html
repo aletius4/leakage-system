@@ -1,0 +1,186 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>BUWASA Admin Dashboard</title>
+  <link rel="icon" href="{% static 'images/ttcl_logo.png' %}">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f6f9;
+      color: #333;
+    }
+
+    /* Navbar */
+    .admin-navbar {
+      background-color: #003366;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-left img {
+      height: 45px;
+      margin-right: 15px;
+    }
+
+    .navbar-left span {
+      color: white;
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .navbar-right a {
+      color: #fff;
+      margin-left: 30px;
+      text-decoration: none;
+      font-size: 16px;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .navbar-right a:hover {
+      color: #ffd700;
+    }
+
+    .navbar-right a::after {
+      content: '';
+      display: block;
+      width: 0;
+      height: 2px;
+      background: #ffd700;
+      transition: width .3s;
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+    }
+
+    .navbar-right a:hover::after {
+      width: 100%;
+    }
+
+    /* Container */
+    .admin-container {
+      max-width: 1300px;
+      margin: 30px auto;
+      padding: 30px;
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.07);
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 25px;
+      color: #003366;
+      border-left: 5px solid #003366;
+      padding-left: 15px;
+    }
+
+    /* Optional: Info widgets/cards */
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .card {
+      background-color: #e8f0fe;
+      padding: 20px;
+      border-radius: 10px;
+      border-left: 5px solid #004080;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .card h3 {
+      font-size: 18px;
+      color: #004080;
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      font-size: 24px;
+      font-weight: bold;
+      color: #222;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-right a {
+        margin-left: 15px;
+        font-size: 14px;
+      }
+
+      .admin-container {
+        padding: 15px;
+      }
+
+      .section-title {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Admin Navbar -->
+  <nav class="admin-navbar">
+    <div class="navbar-left">
+      <img src="{% static 'images/buwasa_logo.png' %}" alt="BUWASA Logo">
+      <span>BUWASA Admin Dashboard</span>
+    </div>
+    <div class="navbar-right">
+      <a href="{% url 'admin_map_view' %}"><i class="fas fa-map-marked-alt"></i> Map View</a>
+      <a href="{% url 'admin_leak_list' %}"><i class="fas fa-list"></i> Reported leak</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="admin-container">
+
+    {% if view_type == 'map' %}
+      <div class="section-title">leakage Map View</div>
+      <!-- Optional Summary Section -->
+      <div class="dashboard-cards">
+        <div class="card">
+          <h3>Total leakage</h3>
+          <p>{{ total_leakage }}</p>
+        </div>
+        <div class="card">
+          <h3>Resolved</h3>
+          <p>{{ resolved_leakage }}</p>
+        </div>
+        <div class="card">
+          <h3>Pending</h3>
+          <p>{{ pending_leakage }}</p>
+        </div>
+      </div>
+      {% include 'map_view.html' %}
+
+    {% elif view_type == 'leak_list' %}
+      <div class="section-title">Reported leakage Table</div>
+      {% include 'report_leakage_table.html' %}
+    {% endif %}
+
+  </div>
+
+</body>
+</html>
