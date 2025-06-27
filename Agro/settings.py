@@ -30,12 +30,12 @@ LOGIN_URL = '/login/'  # 👈 hii imeongezwa hapa
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('leakage_db'),
-        'USER': os.environ.get('leakage_db_user'),
-        'PASSWORD': os.environ.get('ifvNp3BI8B9Iiowp0230iJ3FrMLEnbPO'),
-        'HOST': os.environ.get('dpg-d1ev8rndiees73afbtog-a'),
-        'PORT': os.environ.get('DB_PORT', '5432'),
-        
+        'NAME': 'leakage_db',
+        'USER': 'leakage_db_user',
+        'PASSWORD': 'ifvNp3BI8B9Iiowp0230iJ3FrMLEnbPO',
+        'HOST': 'dpg-d1ev8rndiees73afbtog-a',
+        'PORT': '5432'
+    }    
 }
 # Static and Media settings
 STATIC_URL = '/static/'
