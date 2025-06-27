@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-u1qn=gy=dz*t&@ycth%gi_ayz8#uqm!%izgda^&=pt*mon%+zj'
 DEBUG = False
-ALLOWED_HOSTS = ['.onrender.com']
+ALLOWED_HOSTS = ['onrender.com']
 
 AUTH_USER_MODEL = 'account.Account'
 LOGIN_REDIRECT_URL = 'home'
@@ -30,12 +30,12 @@ LOGIN_URL = '/login/'  # 👈 hii imeongezwa hapa
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'buwasa',
-        'USER': 'postgres',
-        'PASSWORD': '4597',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+        'NAME': os.environ.get('leakage_db'),
+        'USER': os.environ.get('leakage_db_user'),
+        'PASSWORD': os.environ.get('ifvNp3BI8B9Iiowp0230iJ3FrMLEnbPO'),
+        'HOST': os.environ.get('dpg-d1ev8rndiees73afbtog-a'),
+        'PORT': os.environ.get('DB_PORT', '5432'),
+        
 }
 # Static and Media settings
 STATIC_URL = '/static/'
