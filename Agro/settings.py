@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-u1qn=gy=dz*t&@ycth%gi_ayz8#uqm!%izgda^&=pt*mon%+zj'
 DEBUG = False
-ALLOWED_HOSTS = ['onrender.com']
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = 'account.Account'
 LOGIN_REDIRECT_URL = 'home'
