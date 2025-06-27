@@ -19,8 +19,8 @@ LEAFLET_CONFIG = {
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = 'django-insecure-u1qn=gy=dz*t&@ycth%gi_ayz8#uqm!%izgda^&=pt*mon%+zj'
-DEBUG = True
-ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+DEBUG = False
+ALLOWED_HOSTS = ['.onrender.com']
 
 AUTH_USER_MODEL = 'account.Account'
 LOGIN_REDIRECT_URL = 'home'
